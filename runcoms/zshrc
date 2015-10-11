@@ -11,3 +11,94 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+# autoload -U up-line-or-beginning-search
+# autoload -U down-line-or-beginning-search
+# zle -N up-line-or-beginning-search
+# zle -N down-line-or-beginning-search
+# bindkey "\e0A" up-line-or-beginning-search # Up
+# bindkey "^[[B" down-line-or-beginning-search # Down
+
+# bindkey '\e[A' up-line-or-search
+
+#
+# bindkey "^P"          up-line-or-search
+# bindkey -M vicmd "k"  up-line-or-search
+# bindkey -M vicmd "^k" up-line-or-search
+# bindkey -M viins "^k" up-line-or-search
+# bindkey "^N"          down-line-or-search
+# bindkey -M vicmd "j"  down-line-or-search
+# bindkey -M vicmd "^j" down-line-or-search
+# bindkey -M viins "^j" down-line-or-search
+
+
+setopt AUTO_CD
+setopt MULTIOS
+
+# If we have a glob this will expand it
+setopt GLOB_COMPLETE
+setopt PUSHD_MINUS
+
+# This makes cd=pushd
+setopt AUTO_PUSHD
+#
+# # This will use named dirs when possible
+setopt AUTO_NAME_DIRS
+
+# Who doesn't want home and end to work?
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
+#
+# # Incremental search is elite!
+bindkey -M vicmd "/" history-incremental-search-backward
+bindkey -M vicmd "?" history-incremental-search-forward
+#
+# # Search based on what you typed in already
+bindkey -M vicmd "//" history-beginning-search-backward
+bindkey -M vicmd "??" history-beginning-search-forward
+
+
+# oh wow!  This is killer...  try it!
+bindkey -M vicmd "q" push-line
+#
+# # it's like, space AND completion.  Gnarlbot.
+bindkey -M viins ' ' magic-space
+
+alias l='ls -alh'
+alias g='git'
+alias gr='grunt'
+alias grwatch='grunt watch &'
+alias grstop='pkill grunt'
+alias rm='rm -i'
+alias waf='wafw00f -a'
+
+alias log='multitail -f'
+alias logc='multitail -Cs -f'
+
+alias cdv='cd /var/www'
+
+alias 256colors="~/zshrc/256-xterm-colors"
+alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT0| grep -E "state|to\ full|percentage"'
+
+# tmux aliases
+alias t='tmux -2'
+alias tlist='tmux list-sessions'
+alias tdetach='tmux detach -a'
+
+# record audio from mic -- just incase
+alias rec='arecord -f cd -t raw | oggenc - -r -o record.ogg'
+
+alias sqlm='python /usr/local/share/sqlmap/sqlmap.py -c /usr/local/share/sqlmap/sqlmap.conf --answers "further processing=Y,password hashes=N"'
+
+alias wpscan='ruby /usr/local/share/wpscan/wpscan.rb'
+
+alias upgrade='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y dist-upgrade && sudo apt-get -y autoremove && sudo apt-get -y autoclean'
+alias '~?'='~/' 
+
+if [[ -r ~/.local/bin/man ]]; then
+    alias man='~/./.local/bin/man'
+fi
+
+if [[ -r ~/.local/bin/sc ]]; then
+    alias sc='~/./.local/bin/sc'
+fi
