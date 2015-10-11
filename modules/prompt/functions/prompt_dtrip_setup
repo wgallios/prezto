@@ -25,6 +25,10 @@
 ### Segment drawing
 # A few utility functions to make it easy and re-usable to draw segmented prompts
 
+# Load dependencies.
+pmodload 'helper'
+
+
 CURRENT_BG='NONE'
 PRIMARY_FG=black
 
@@ -71,10 +75,16 @@ prompt_end() {
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   local user=`whoami`
+  local bg=190
+  local fg=16
 
-  if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
-    prompt_segment 190 0 " %(!.%{%F{0}%}.)$user "
+  if [[ $UID -eq 0 ]]; then
+    bg=1
+    fg=231
   fi
+  # if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
+    prompt_segment $bg $fg " $user "
+  # fi
 }
 
 prompt_endcap() {
@@ -151,11 +161,17 @@ prompt_status() {
   [[ -n "$symbols" ]] && prompt_segment $PRIMARY_FG default " $symbols "
 }
 
+prompt_virtualenv () {
+  local pye=$(pyenv version-name)
+  # print -n "${python_info[virtualenv]}"
+  if [[ $pye != 'system' ]] && prompt_segment 237 81 " $pye "
+}
 ## Main prompt
 prompt_dtrip_main() {
   RETVAL=$?
   CURRENT_BG='NONE'
-  prompt_status
+  # prompt_status
+  prompt_virtualenv
   prompt_context
   prompt_hostname
   prompt_dir
@@ -164,23 +180,48 @@ prompt_dtrip_main() {
   prompt_end
 }
 
-prompt_dtrip_precmd() {
+function prompt_dtrip_precmd() {
+  # unsetopt XTRACE KSH_ARRAYS
   vcs_info
-  PROMPT='%{%f%b%k%}$(prompt_dtrip_main) '
+
+  # zstyle ':vcs_info:*:prompt:*' formats "${branch_format}"
+
+  # vcs_info 'prompt'
+
+
+  # if (( $+functions[python-info] )); then
+  #   python-info
+  # fi
+  PROMPT="%{%f%b%k%}$(prompt_dtrip_main) "
 }
 
 prompt_dtrip_setup() {
   autoload -Uz add-zsh-hook
   autoload -Uz vcs_info
 
+  # unsetopt XTRACE KSH_ARRAYS
+
   prompt_opts=(cr subst percent)
 
   add-zsh-hook precmd prompt_dtrip_precmd
+
+
+
+  # Set python-info parameters.
+  # zstyle ':prezto:module:python:info:virtualenv' format '(%v)'
+
+  # Set python-info parameters.
+  zstyle ':prezto:module:python:info:virtualenv' format '%F{yellow}[%v]%f '
+
+
 
   zstyle ':vcs_info:*' enable git
   zstyle ':vcs_info:*' check-for-changes false
   zstyle ':vcs_info:git*' formats '%b'
   zstyle ':vcs_info:git*' actionformats '%b (%a)'
+
+
+
 }
 
 prompt_dtrip_setup "$@"

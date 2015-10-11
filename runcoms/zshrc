@@ -11,32 +11,12 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-
-# autoload -U up-line-or-beginning-search
-# autoload -U down-line-or-beginning-search
-# zle -N up-line-or-beginning-search
-# zle -N down-line-or-beginning-search
-# bindkey "\e0A" up-line-or-beginning-search # Up
-# bindkey "^[[B" down-line-or-beginning-search # Down
-
-# bindkey '\e[A' up-line-or-search
-
-#
-# bindkey "^P"          up-line-or-search
-# bindkey -M vicmd "k"  up-line-or-search
-# bindkey -M vicmd "^k" up-line-or-search
-# bindkey -M viins "^k" up-line-or-search
-# bindkey "^N"          down-line-or-search
-# bindkey -M vicmd "j"  down-line-or-search
-# bindkey -M vicmd "^j" down-line-or-search
-# bindkey -M viins "^j" down-line-or-search
-
 export TERM='screen-256color'
 [[ $TMUX = "" ]] && export TERM="xterm-256color"
 
 # present working directory
 DIR=$(dirname $0:A)
-export RBENV_ROOT=/usr/local/share/rbenv
+# export RBENV_ROOT=/usr/local/share/rbenv
 
 
 
