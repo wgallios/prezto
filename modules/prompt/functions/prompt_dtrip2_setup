@@ -38,6 +38,16 @@ CROSS="\uf00D"
 LIGHTNING="\u26a1"
 GEAR="\u2699"
 
+VIRTUALENV="\ue606"
+GIT="\uf1d3"
+DATE="\uf43a"
+COMPUTER="\uf109"
+TERMINAL="\uf120"
+DIRICO="\uf115"
+FAIL="\uf479"
+USERICON="\uf470"
+
+
 # Begin a segment
 # Takes two arguments, background and foreground. Both can be omitted,
 # rendering default background/foreground.
@@ -80,7 +90,7 @@ prompt_end() {
 
 prompt_hostname() {
   local bg=23
-  prompt_segment $bg 11 " %m "
+  prompt_segment $bg 11 " $COMPUTER  %m "
   CURRENT_BG=$bg
 }
 
@@ -92,7 +102,7 @@ prompt_hostname() {
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   local user=`whoami`
-  local bg=190
+  local bg=226
   local fg=16
 
   if [[ $UID -eq 0 ]]; then
@@ -100,6 +110,7 @@ prompt_context() {
     fg=231
   fi
 
+    # prompt_segment $bg $fg " $user %F{235}%f%K{235}%F{$bg}$COMPUTER%f %F{235}%K{$bg}%f%F{$fg} %m "
     prompt_segment $bg $fg " $user "
 
     CURRENT_BG=$bg
@@ -132,7 +143,7 @@ prompt_git() {
       ref="$DETACHED ${ref/.../}"
     fi
     prompt_right_segment $color $fg
-    print -Pn " $ref "
+    print -Pn " $GIT  $ref "
   fi
 }
 
@@ -141,7 +152,7 @@ prompt_dir() {
   local bg=235
   local fdir=${(%):-%3c}
   fdir=${fdir//"\/"/" %F{241}%f%F{228} "} 
-  prompt_segment $bg 228 " $fdir "
+  prompt_segment $bg 228 " $DIRICO %F{241}%f%F{228} $fdir "
   # prompt_segment blue $PRIMARY_FG ' %~ '
   CURRENT_BG=$bg
 }
@@ -152,12 +163,22 @@ prompt_dir() {
 # - are there background jobs?
 prompt_status() {
   local symbols
+  local bg=227
   symbols=()
-  [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}$CROSS"
-  [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}$LIGHTNING"
+  # [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}$CROSS"
+
+  if [[ $UID -eq 0 ]]; then
+    symbols+="%{%F{yellow}%}$LIGHTNING"
+    bg=$PRIMARY_FG
+  else
+    symbols+="%{%F{16}%}$USERICON"
+  fi
+
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}$GEAR"
 
-  [[ -n "$symbols" ]] && prompt_segment $PRIMARY_FG default " $symbols "
+  [[ -n "$symbols" ]] && prompt_segment $bg default " $symbols "
+
+  CURRENT_BG=$bg
 }
 
 
@@ -167,7 +188,7 @@ prompt_virtualenv () {
   # print -n "${python_info[virtualenv]}"
 
   if [[ $pye != 'system' ]]; then
-    prompt_right_segment 237 81 " $pye "
+    prompt_right_segment 237 81 " $VIRTUALENV $pye "
     CURRENT_BG=$bg
   fi
 }
@@ -176,10 +197,10 @@ prompt_endcap() {
   # print -n "%{%k%} "
   # CURRENT_BG=''
   if [[ $RETVAL -ne 0 ]]; then
-    prompt_segment 1 42 ""
+    prompt_segment 1 254 " $FAIL "
     CURRENT_BG=1
   else
-    prompt_segment 190 190 ""
+    prompt_segment 190 16 " $TERMINAL  "
     CURRENT_BG=190
   fi
 }
@@ -187,7 +208,7 @@ prompt_endcap() {
 prompt_right () {
   # print -n "%b%B{238}"
   # prompt_end
-  prompt_right_segment 228 16 " %D{%m/%d/%y %H:%M:%S} "
+  prompt_right_segment 228 16 " $DATE %D{%m/%d/%y %H:%M:%S} "
   prompt_git
   prompt_virtualenv
   # prompt_end_right
