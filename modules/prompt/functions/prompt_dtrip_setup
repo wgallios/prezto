@@ -66,7 +66,7 @@ prompt_right_segment() {
 
 
     # print -n "%{$fg$SEGMCENT_RSEPARATOR%}%F{$CURRENT_BG}%}%{$fg%}"
-  print -n "$SEGMENT_RSEPARATOR"
+  print -n "%F{$1}$SEGMENT_RSEPARATOR%{$bg%}%{$fg%}"
 
   [[ -n $3 ]] && print -n $3
   # if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
@@ -139,7 +139,7 @@ prompt_git() {
     else
       color=234
       fg=48
-      ref="${ref} "
+      ref=" ${ref} "
     fi
     if [[ "${ref/.../}" == "$ref" ]]; then
       ref="$BRANCH $ref"
@@ -147,16 +147,23 @@ prompt_git() {
       ref="$DETACHED ${ref/.../}"
     fi
     prompt_right_segment $color $fg
-    print -Pn " $ref"
+    print -Pn " $ref "
   fi
 }
 
 # Dir: current working directory
 prompt_dir() {
   local fdir=${(%):-%3c}
+
+  local fchar=${fdir:0:1}
+
   # local p=$(sed -e "s/\//g" <<< $fdir)
   # fdir=${fdir//"\/"/" %F{241}%f%F{228} "}
   fdir=${fdir//"\/"/" %F{241}%f%F{228} "}
+
+  if [[ $fchar == '/' ]]; then
+    $fchar="..."
+  fi
 
   prompt_segment 235 228 " $fdir "
   # for word in $arrIN; do
@@ -203,9 +210,10 @@ prompt_dtrip_main() {
 prompt_right () {
   # print -n "%b%B{238}"
   # prompt_end
-  prompt_virtualenv
+  prompt_right_segment 228 16 " %D{%m/%d/%y %H:%M:%S} "
   prompt_git
-
+  prompt_virtualenv
+  
 }
 
 function prompt_dtrip_precmd() {
@@ -249,6 +257,23 @@ prompt_dtrip_setup() {
   zstyle ':vcs_info:git*' formats '%b'
   zstyle ':vcs_info:git*' actionformats '%b (%a)'
 
+  zstyle ':prezto:module:git:info:action' format ' ⁝ %s'
+  zstyle ':prezto:module:git:info:added' format ' ✚'
+  zstyle ':prezto:module:git:info:ahead' format ' ⬆'
+  zstyle ':prezto:module:git:info:behind' format ' ⬇'
+  zstyle ':prezto:module:git:info:branch' format ' %b'
+  zstyle ':prezto:module:git:info:commit' format '➦ %.7c'
+  zstyle ':prezto:module:git:info:deleted' format ' ✖'
+  zstyle ':prezto:module:git:info:dirty' format ' ⁝'
+  zstyle ':prezto:module:git:info:modified' format ' ✱'
+  zstyle ':prezto:module:git:info:position' format '%p'
+  zstyle ':prezto:module:git:info:renamed' format ' ➙'
+  zstyle ':prezto:module:git:info:stashed' format ' S'
+  zstyle ':prezto:module:git:info:unmerged' format ' ═'
+  zstyle ':prezto:module:git:info:untracked' format ' ?'
+  zstyle ':prezto:module:git:info:keys' format \
+    'ref' '$(coalesce "%b" "%p" "%c")' \
+    'status' '%s%D%A%B%S%a%d%m%r%U%u'
 
 
 }
