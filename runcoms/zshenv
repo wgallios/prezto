@@ -10,6 +10,7 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
+export RBENV_ROOT=/usr/local/share/rbenv
 
 
 if [ -d "$HOME/.pyenv" ]; then

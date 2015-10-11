@@ -31,6 +31,15 @@ fi
 # bindkey -M vicmd "^j" down-line-or-search
 # bindkey -M viins "^j" down-line-or-search
 
+export TERM='screen-256color'
+[[ $TMUX = "" ]] && export TERM="xterm-256color"
+
+# present working directory
+DIR=$(dirname $0:A)
+export RBENV_ROOT=/usr/local/share/rbenv
+
+
+
 
 setopt AUTO_CD
 setopt MULTIOS
