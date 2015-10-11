@@ -34,6 +34,7 @@ PRIMARY_FG=black
 
 # Characters
 SEGMENT_SEPARATOR="\ue0b0"
+SEGMENT_RSEPARATOR="\ue0b2"
 PLUSMINUS="\u00b1"
 BRANCH="\ue0a0"
 DETACHED="\u27a6"
@@ -55,6 +56,27 @@ prompt_segment() {
   fi
   CURRENT_BG=$1
   [[ -n $3 ]] && print -n $3
+}
+
+prompt_right_segment() {
+  local bg fg
+  [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
+  [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
+
+
+
+    # print -n "%{$fg$SEGMCENT_RSEPARATOR%}%F{$CURRENT_BG}%}%{$fg%}"
+  print -n "$SEGMENT_RSEPARATOR"
+
+  [[ -n $3 ]] && print -n $3
+  # if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
+    # print -n "%{$bg$SEGMENT_RSEPARATOR%F{$CURRENT_BG}%}%{$fg%}"
+    # print -n "%{$fg$SEGMENT_RSEPARATOR%{$bg%}"
+  # else
+    # print -n "%{$bg%}%{$fg%}"
+  # fi
+
+  CURRENT_BG=$1
 }
 
 # End the prompt, closing any open segments
@@ -124,7 +146,7 @@ prompt_git() {
     # else
       ref="$DETACHED ${ref/.../}"
     fi
-    prompt_segment $color $fg
+    prompt_right_segment $color $fg
     print -Pn " $ref"
   fi
 }
@@ -164,20 +186,26 @@ prompt_status() {
 prompt_virtualenv () {
   local pye=$(pyenv version-name)
   # print -n "${python_info[virtualenv]}"
-  if [[ $pye != 'system' ]] && prompt_segment 237 81 " $pye "
+  if [[ $pye != 'system' ]] && prompt_right_segment 237 81 " $pye "
 }
 ## Main prompt
 prompt_dtrip_main() {
   RETVAL=$?
   CURRENT_BG='NONE'
   # prompt_status
-  prompt_virtualenv
   prompt_context
   prompt_hostname
   prompt_dir
-  prompt_git
   prompt_endcap
   prompt_end
+}
+
+prompt_right () {
+  # print -n "%b%B{238}"
+  # prompt_end
+  prompt_virtualenv
+  prompt_git
+
 }
 
 function prompt_dtrip_precmd() {
@@ -193,6 +221,7 @@ function prompt_dtrip_precmd() {
   #   python-info
   # fi
   PROMPT="%{%f%b%k%}$(prompt_dtrip_main) "
+  RPROMPT="$(prompt_right)"
 }
 
 prompt_dtrip_setup() {
