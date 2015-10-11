@@ -26,8 +26,7 @@
 # A few utility functions to make it easy and re-usable to draw segmented prompts
 
 # Load dependencies.
-pmodload 'helper'
-
+# pmodload 'helper'
 
 CURRENT_BG='NONE'
 PRIMARY_FG=black
@@ -35,10 +34,10 @@ PRIMARY_FG=black
 # Characters
 SEGMENT_SEPARATOR="\ue0b0"
 SEGMENT_RSEPARATOR="\ue0b2"
-PLUSMINUS="\u00b1"
+PLUSMINUS="\ue601"
 BRANCH="\ue0a0"
 DETACHED="\u27a6"
-CROSS="\u2718"
+CROSS="\uf00D"
 LIGHTNING="\u26a1"
 GEAR="\u2699"
 
@@ -68,6 +67,7 @@ prompt_right_segment() {
     # print -n "%{$fg$SEGMCENT_RSEPARATOR%}%F{$CURRENT_BG}%}%{$fg%}"
   print -n "%F{$1}$SEGMENT_RSEPARATOR%{$bg%}%{$fg%}"
 
+  CURRENT_BG=$1
   [[ -n $3 ]] && print -n $3
   # if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
     # print -n "%{$bg$SEGMENT_RSEPARATOR%F{$CURRENT_BG}%}%{$fg%}"
@@ -76,8 +76,12 @@ prompt_right_segment() {
     # print -n "%{$bg%}%{$fg%}"
   # fi
 
-  CURRENT_BG=$1
 }
+#
+# prompt_end_right() {
+#   print -n "%{%k%}"
+#   print -n "%{%f%}"
+# }
 
 # End the prompt, closing any open segments
 prompt_end() {
@@ -104,76 +108,83 @@ prompt_context() {
     bg=1
     fg=231
   fi
-  # if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
-    prompt_segment $bg $fg " $user "
-  # fi
-}
-
-prompt_endcap() {
-  # print -n "%{%k%} "
-  # CURRENT_BG=''
-  if [[ $RETVAL -ne 0 ]]; then
-    prompt_segment 1 42 ""
-  else
-    prompt_segment 190 190 ""
+  if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CONNECTION" ]]; then
+    # prompt_segment $bg $fg " $user "
+    prompt_segment $PRIMARY_FG default " %(!.%{%F{yellow}%}.)$user "
   fi
 }
 
-prompt_hostname() {
-  prompt_segment 23 11 " %m "
-}
+# prompt_endcap() {
+#   # print -n "%{%k%} "
+#   # CURRENT_BG=''
+#   if [[ $RETVAL -ne 0 ]]; then
+#     prompt_segment 1 42 ""
+#   else
+#     prompt_segment 190 190 ""
+#   fi
+# }
 
+# prompt_hostname() {
+#   local bg=23
+#   prompt_segment $bg 11 " %m "
+#   CURRENT_BG=$bg
+# }
+
+# Git: branch/detached head, dirty status
+# prompt_git() {
+#   local color ref
+#   fg=$PRIMARY_FG
+#   is_dirty() {
+#     test -n "$(git status --porcelain --ignore-submodules)"
+#   }
+#   ref="$vcs_info_msg_0_"
+#   if [[ -n "$ref" ]]; then
+#     if is_dirty; then
+#       color=234
+#       fg=87
+#       ref=" ${ref} $PLUSMINUS"
+#     else
+#       color=234
+#       fg=48
+#       ref=" ${ref} "
+#     fi
+#     if [[ "${ref/.../}" == "$ref" ]]; then
+#       ref="$BRANCH $ref"
+#     # else
+#       ref="$DETACHED ${ref/.../}"
+#     fi
+#     prompt_right_segment $color $fg ""
+#     print -Pn " $ref "
+#   fi
+# }
 # Git: branch/detached head, dirty status
 prompt_git() {
   local color ref
-  fg=$PRIMARY_FG
   is_dirty() {
     test -n "$(git status --porcelain --ignore-submodules)"
   }
   ref="$vcs_info_msg_0_"
   if [[ -n "$ref" ]]; then
     if is_dirty; then
-      color=234
-      fg=87
+      color=yellow
       ref="${ref} $PLUSMINUS"
     else
-      color=234
-      fg=48
-      ref=" ${ref} "
+      color=green
+      ref="${ref} "
     fi
     if [[ "${ref/.../}" == "$ref" ]]; then
       ref="$BRANCH $ref"
-    # else
+    else
       ref="$DETACHED ${ref/.../}"
     fi
-    prompt_right_segment $color $fg
-    print -Pn " $ref "
+    prompt_segment $color $PRIMARY_FG
+    print -Pn " $ref"
   fi
 }
-
 # Dir: current working directory
 prompt_dir() {
   local fdir=${(%):-%3c}
-
-  local fchar=${fdir:0:1}
-
-  # local p=$(sed -e "s/\//g" <<< $fdir)
-  # fdir=${fdir//"\/"/" %F{241}%f%F{228} "}
-  fdir=${fdir//"\/"/" %F{241}%f%F{228} "}
-
-  if [[ $fchar == '/' ]]; then
-    $fchar="..."
-  fi
-
   prompt_segment 235 228 " $fdir "
-  # for word in $arrIN; do
-    # prompt_segment 235 228 " ${word} "
-  # done
-  # for f in "%/"; do
-      # prompt_segment 235 228  " %. "
-  # done 
-  
-  # prompt_segment blue $PRIMARY_FG ' %~ '
 }
 
 # Status:
@@ -183,6 +194,8 @@ prompt_dir() {
 prompt_status() {
   local symbols
   symbols=()
+  # echo $RETVAL
+  # echo $status
   [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}$CROSS"
   [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}$LIGHTNING"
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}$GEAR"
@@ -191,32 +204,35 @@ prompt_status() {
 }
 
 prompt_virtualenv () {
+  local bg=237
   local pye=$(pyenv version-name)
   # print -n "${python_info[virtualenv]}"
   if [[ $pye != 'system' ]] && prompt_right_segment 237 81 " $pye "
+  CURRENT_BG=$bg
 }
 ## Main prompt
 prompt_dtrip_main() {
   RETVAL=$?
   CURRENT_BG='NONE'
-  # prompt_status
+  prompt_status
   prompt_context
-  prompt_hostname
+  # prompt_hostname
   prompt_dir
-  prompt_endcap
+  # prompt_endcap
   prompt_end
 }
 
-prompt_right () {
+# prompt_right () {
   # print -n "%b%B{238}"
   # prompt_end
-  prompt_right_segment 228 16 " %D{%m/%d/%y %H:%M:%S} "
-  prompt_git
-  prompt_virtualenv
-  
-}
+  # prompt_right_segment 228 16 " %D{%m/%d/%y %H:%M:%S} "
+  # prompt_git
+  # prompt_virtualenv
+  # prompt_end_right
 
-function prompt_dtrip_precmd() {
+# }
+
+prompt_dtrip_precmd() {
   # unsetopt XTRACE KSH_ARRAYS
   vcs_info
 
@@ -224,12 +240,15 @@ function prompt_dtrip_precmd() {
 
   # vcs_info 'prompt'
 
-
   # if (( $+functions[python-info] )); then
   #   python-info
   # fi
+  # # Get Git repository information.
+  # if (( $+functions[git-info] )); then
+  #   git-info
+  # fi
   PROMPT="%{%f%b%k%}$(prompt_dtrip_main) "
-  RPROMPT="$(prompt_right)"
+  # RPROMPT="$(prompt_right)"
 }
 
 prompt_dtrip_setup() {
@@ -248,33 +267,39 @@ prompt_dtrip_setup() {
   # zstyle ':prezto:module:python:info:virtualenv' format '(%v)'
 
   # Set python-info parameters.
-  zstyle ':prezto:module:python:info:virtualenv' format '%F{yellow}[%v]%f '
+  # zstyle ':prezto:module:python:info:virtualenv' format '%F{yellow}[%v]%f '
+  #
 
+  # Set editor-info parameters.
+  # zstyle ':prezto:module:editor:info:completing' format '%B%F{red}...%f%b'
+  # zstyle ':prezto:module:editor:info:keymap:primary' format '%B%F{blue}❯%f%b'
+  # zstyle ':prezto:module:editor:info:keymap:primary:overwrite' format '%F{red}♺%f'
+  # zstyle ':prezto:module:editor:info:keymap:alternate' format '%B%F{red}❮%f%b'
+  #
+  #
 
 
   zstyle ':vcs_info:*' enable git
   zstyle ':vcs_info:*' check-for-changes false
   zstyle ':vcs_info:git*' formats '%b'
   zstyle ':vcs_info:git*' actionformats '%b (%a)'
-
-  zstyle ':prezto:module:git:info:action' format ' ⁝ %s'
-  zstyle ':prezto:module:git:info:added' format ' ✚'
-  zstyle ':prezto:module:git:info:ahead' format ' ⬆'
-  zstyle ':prezto:module:git:info:behind' format ' ⬇'
-  zstyle ':prezto:module:git:info:branch' format ' %b'
-  zstyle ':prezto:module:git:info:commit' format '➦ %.7c'
-  zstyle ':prezto:module:git:info:deleted' format ' ✖'
-  zstyle ':prezto:module:git:info:dirty' format ' ⁝'
-  zstyle ':prezto:module:git:info:modified' format ' ✱'
-  zstyle ':prezto:module:git:info:position' format '%p'
-  zstyle ':prezto:module:git:info:renamed' format ' ➙'
-  zstyle ':prezto:module:git:info:stashed' format ' S'
-  zstyle ':prezto:module:git:info:unmerged' format ' ═'
-  zstyle ':prezto:module:git:info:untracked' format ' ?'
-  zstyle ':prezto:module:git:info:keys' format \
-    'ref' '$(coalesce "%b" "%p" "%c")' \
-    'status' '%s%D%A%B%S%a%d%m%r%U%u'
-
+  #
+  # zstyle ':prezto:module:git:info:action' format ' ⁝ %s'
+  # zstyle ':prezto:module:git:info:added' format ' ✚'
+  # zstyle ':prezto:module:git:info:ahead' format ' ⬆'
+  # zstyle ':prezto:module:git:info:behind' format ' ⬇'
+  # zstyle ':prezto:module:git:info:branch' format ' %b'
+  # zstyle ':prezto:module:git:info:commit' format '➦ %.7c'
+  # zstyle ':prezto:module:git:info:deleted' format ' ✖'
+  # zstyle ':prezto:module:git:info:dirty' format ' ⁝'
+  # zstyle ':prezto:module:git:info:modified' format ' ✱'
+  # zstyle ':prezto:module:git:info:position' format '%p'
+  # zstyle ':prezto:module:git:info:renamed' format ' ➙'
+  # zstyle ':prezto:module:git:info:stashed' format ' S'
+  # zstyle ':prezto:module:git:info:unmerged' format ' ═'
+  # zstyle ':prezto:module:git:info:untr3acked' format ' ?'
+  # zstyle ':prezto:module:git:info:keys' format \
+  #   'ref' '$(coalesce "%b" "%p" "%c")' 
 
 }
 
