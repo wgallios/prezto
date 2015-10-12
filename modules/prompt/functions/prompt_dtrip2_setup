@@ -197,7 +197,7 @@ prompt_endcap() {
   # print -n "%{%k%} "
   # CURRENT_BG=''
   if [[ $RETVAL -ne 0 ]]; then
-    prompt_segment 1 254 " $FAIL "
+    prompt_segment 1 254 " $FAIL  "
     CURRENT_BG=1
   else
     prompt_segment 190 16 " $TERMINAL  "
