@@ -53,6 +53,8 @@ bindkey -M vicmd "q" push-line
 # # it's like, space AND completion.  Gnarlbot.
 bindkey -M viins ' ' magic-space
 
+alias up='cd ..'
+alias back='cd -'
 alias l='ls -alh'
 alias g='git'
 alias gr='grunt'
