@@ -5,19 +5,21 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+# Customize to your needs...
+export TERM='screen-256color'
+[[ $TMUX = "" ]] && export TERM="xterm-256color"
+
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
-export TERM='screen-256color'
-[[ $TMUX = "" ]] && export TERM="xterm-256color"
-
 # present working directory
 DIR=$(dirname $0:A)
 # export RBENV_ROOT=/usr/local/share/rbenv
 
+export NO_AT_BRIDGE=1
 
 
 
