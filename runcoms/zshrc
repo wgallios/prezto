@@ -53,7 +53,12 @@ bindkey -M vicmd "??" history-beginning-search-forward
 bindkey -M vicmd "q" push-line
 #
 # # it's like, space AND completion.  Gnarlbot.
-bindkey -M viins ' ' magic-space
+bindkey -M vicmd ' ' magic-space
+
+bindkey -M vicmd '^L' forward-word
+bindkey -M vicmd '^H' backward-word
+
+alias transmission='transmission-cli'
 
 alias up='cd ..'
 alias back='cd -'
@@ -78,6 +83,8 @@ alias t='tmux -2'
 alias tlist='tmux list-sessions'
 alias tdetach='tmux detach -a'
 
+alias ettercap='ettercap -C'
+
 # record audio from mic -- just incase
 alias rec='arecord -f cd -t raw | oggenc - -r -o record.ogg'
 
@@ -95,3 +102,12 @@ fi
 if [[ -r ~/.local/bin/sc ]]; then
     alias sc='~/./.local/bin/sc'
 fi
+
+for keymap in 'emacs' 'viins' 'vicmd'; do
+    #[Ctrl-RightArrow] - move forward one word
+    bindkey -M $keymap '^L' forward-word
+    # [Ctrl-LeftArrow] - move backward one word
+    bindkey -M $keymap '^H' backward-word
+done
+
+unset keymap
