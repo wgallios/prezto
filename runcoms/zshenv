@@ -30,3 +30,7 @@ if [ -d "/usr/lib/oracle/12.1/client64" ]; then
     export ORACLE_HOME=/usr/lib/oracle/12.1/client64
     export LD_LIBRARY_PATH=$ORACLE_HOME/lib
 fi
+
+# Customize to your needs...
+export TERM='screen-256color'
+[[ $TMUX = "" ]] && export TERM="xterm-256color"
