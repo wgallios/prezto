@@ -31,6 +31,12 @@ if [ -d "/usr/lib/oracle/12.1/client64" ]; then
     export LD_LIBRARY_PATH=$ORACLE_HOME/lib
 fi
 
+if [ -d "/usr/local/share/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin" ]; then
+    export PATH="/usr/local/share/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin:$PATH"
+    export CCPREFIX=/usr/local/share/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin/arm-linux-gnueabihf-
+    export MODULES_TEMP=~/modules
+fi
+
 # Customize to your needs...
 export TERM='screen-256color'
 [[ $TMUX = "" ]] && export TERM="xterm-256color"
