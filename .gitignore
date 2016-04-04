@@ -3,3 +3,4 @@
 modules/*/cache.zsh
 *.sw[op]
 *.py[co]
+*.orig
