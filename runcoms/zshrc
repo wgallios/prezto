@@ -59,6 +59,7 @@ alias up='cd ..'
 alias back='cd -'
 alias l='ls -alh'
 alias g='git'
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit;"
 alias gr='grunt'
 alias grwatch='grunt watch &'
 alias grstop='pkill grunt'
