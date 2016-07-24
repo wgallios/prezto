@@ -139,3 +139,17 @@ bindkey "e[H" beginning-of-line
 bindkey "e[F" end-of-line
 # completion in the middle of a line
 bindkey '^i' expand-or-complete-prefix
+
+
+
+for keymap in 'emacs' 'viins' 'vicmd'; do
+    bindkey -M $keymap "^[[1;2C" forward-word
+    bindkey -M $keymap "^[[1;2D" backward-word
+done
+
+insert_sudo () {
+    zle beginning-of-line; zle -U "sudo " 
+}
+
+zle -N insert-sudo insert_sudo
+bindkey "^[^[" insert-sudo
