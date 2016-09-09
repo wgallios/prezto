@@ -11,13 +11,6 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
 fi
 
 
-if [ -d "$HOME/.pyenv" ]; then
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-fi
-
-
 ## RBENV stuff ##
 if [ -d "/usr/local/share/rbenv" ]; then
     export RBENV_ROOT=/usr/local/share/rbenv
@@ -59,3 +52,14 @@ fi
 # Customize to your needs...
 export TERM='screen-256color'
 [[ -z $TMUX ]] && export TERM="xterm-256color"
+
+
+
+if [ -d "$HOME/.pyenv" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+
+
