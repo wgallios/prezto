@@ -93,7 +93,17 @@ alias wpscan='ruby /usr/local/share/wpscan/wpscan.rb'
 alias upgrade='sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y dist-upgrade && sudo apt-get -y autoremove && sudo apt-get -y autoclean'
 alias '~?'='~/' 
 
-alias ack='ack-grep'
+
+# shortens ack-grep to ack when applicable
+if [[ $(which ack-grep) ]]; then
+    alias ack='ack-grep'
+fi
+
+if [[ $(which systemctl) ]]; then
+    alias ctl='systemctl'
+fi
+
+alias nautilus='nautilus --no-desktop'
 
 source ~/.zshenv
 
