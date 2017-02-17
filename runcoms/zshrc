@@ -105,6 +105,10 @@ fi
 
 alias nautilus='nautilus --no-desktop'
 
+if [[ $(which exiqgrep) ]]; then
+    alias eximfrozen='exiqgrep -z -i | xargs exim -Mrm'
+fi
+
 source ~/.zshenv
 
 if [[ -r ~/.local/bin/man ]]; then
