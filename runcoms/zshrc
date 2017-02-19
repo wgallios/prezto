@@ -107,7 +107,8 @@ fi
 
 alias nautilus='nautilus --no-desktop'
 
-if [[ $(which exiqgrep) ]]; then
+# if [[ $(which exiqgrep) ]]; then
+if command -v exiqgrep > /dev/null 2>&1; then
     alias eximfrozen='exiqgrep -z -i | xargs exim -Mrm'
 fi
 
