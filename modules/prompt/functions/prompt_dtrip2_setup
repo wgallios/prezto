@@ -151,8 +151,22 @@ prompt_git() {
 prompt_dir() {
   local bg=235
   local fdir=${(%):-%3c}
-  fdir=${fdir//"\/"/" %F{241}%f%F{228} "} 
-  prompt_segment $bg 228 " $DIRICO %F{241}%f%F{228} $fdir "
+ 
+  if [ $(echo $fdir | grep -Ec "^/$") -eq 1 ]; then
+    fdir=""
+    prompt_segment $bg 228 " $DIRICO "
+  else
+    if [ $(echo $fdir | cut -c1 | grep -Ec "^/") -eq 1 ]; then
+      fdir="$(echo ${fdir} | cut -c1 --complement)"
+      # echo "here"
+    else
+      if [ $(echo $fdir | cut -c1 | grep -Ec "^~") -eq 0 ]; then
+        fdir="../${fdir}"
+      fi
+    fi 
+    fdir=${fdir//"\/"/" %F{241}%f%F{228} "} 
+    prompt_segment $bg 228 " $DIRICO %F{241}%f%F{228} $fdir "
+  fi
   # prompt_segment blue $PRIMARY_FG ' %~ '
   CURRENT_BG=$bg
 }
