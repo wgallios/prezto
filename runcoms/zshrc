@@ -16,6 +16,8 @@ DIR=$(dirname $0:A)
 
 export NO_AT_BRIDGE=1
 
+export AWESOME_THEMES_PATH=/usr/local/share/awesome/themes
+
 
 
 setopt AUTO_CD
