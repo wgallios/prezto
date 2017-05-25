@@ -127,6 +127,9 @@ if [[ -r ~/.local/bin/sc ]]; then
     alias sc='~/./.local/bin/sc'
 fi
 
+
+alias udevreload='udevadm control --reload-rules && udevadm trigger'
+
 for keymap in 'emacs' 'viins' 'vicmd'; do
     #[Ctrl-RightArrow] - move forward one word
     bindkey -M $keymap '^L' forward-word
@@ -170,8 +173,15 @@ for keymap in 'emacs' 'viins' 'vicmd'; do
 done
 
 insert_sudo () {
-    zle beginning-of-line; zle -U "sudo " 
+    # zle beginning-of-line; zle -U "sudo "; zle end-of-line
+    prefix="sudo"
+    BUFFER="$prefix $BUFFER"
+    CURSOR=$(($CURSOR + $#prefix + 1))
 }
 
 zle -N insert-sudo insert_sudo
 bindkey "^[^[" insert-sudo
+
+
+alias md5ls='f(){ find $1 -maxdepth 1 -type f -exec md5sum "{}" +};f'
+alias md5diff='f(){ vimdiff <(md5ls $1) <(md5ls $2) };f'
