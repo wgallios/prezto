@@ -127,6 +127,15 @@ if [[ -r ~/.local/bin/sc ]]; then
     alias sc='~/./.local/bin/sc'
 fi
 
+if [[ -r /sbin/ifconfig ]]; then
+    alias ifconfig='/./sbin/ifconfig'
+fi
+
+
+if [[ -r /sbin/iwconfig ]]; then
+    alias iwconfig='/./sbin/iwconfig'
+fi
+
 
 alias udevreload='udevadm control --reload-rules && udevadm trigger'
 
@@ -185,3 +194,5 @@ bindkey "^[^[" insert-sudo
 
 alias md5ls='f(){ find $1 -maxdepth 1 -type f -exec md5sum "{}" +};f'
 alias md5diff='f(){ vimdiff <(md5ls $1) <(md5ls $2) };f'
+
+alias urxvtconf='urxvt --help 2>&1| sed -n ''/: /s/^ */! URxvt*/gp'''
