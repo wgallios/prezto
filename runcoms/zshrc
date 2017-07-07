@@ -88,7 +88,7 @@ alias grebase='mv .git ../.git.bak && trash * && trash .* && mv ../.git.bak .git
 # record audio from mic -- just incase
 alias rec='arecord -f cd -t raw | oggenc - -r -o record.ogg'
 
-alias sqlm='python /usr/local/share/sqlmap/sqlmap.py -c /usr/local/share/sqlmap/sqlmap.conf --answers "further processing=Y,password hashes=N"'
+alias sqlm='python /usr/local/share/sqlmap/sqlmap.py --answers "further processing=Y,password hashes=N"'
 
 alias wpscan='ruby /usr/local/share/wpscan/wpscan.rb'
 
