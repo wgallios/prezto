@@ -22,3 +22,6 @@
 [submodule "modules/fasd/external"]
 	path = modules/fasd/external
 	url = https://github.com/clvv/fasd
+[submodule "modules/zsh-titles/external"]
+	path = modules/zsh-titles/external
+	url = https://github.com/jreese/zsh-titles.git
