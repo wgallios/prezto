@@ -199,3 +199,4 @@ alias urxvtconf='urxvt --help 2>&1| sed -n ''/: /s/^ */! URxvt*/gp'''
 
 alias tail='/./usr/bin/tail -n100'
 alias tailf='tail -n100 -f'
+alias hollywood='hollywood --nosound'
