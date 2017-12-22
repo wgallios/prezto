@@ -36,7 +36,7 @@ fi
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
 
-# Set the the list of directories that cd searches.
+# Set the list of directories that cd searches.
 # cdpath=(
 #   $cdpath
 # )
@@ -85,4 +85,3 @@ TMPPREFIX="${TMPDIR%/}/zsh"
     # Avoid executing cdm(1) when X11 has already been started.
     # [[ -z "$DISPLAY$SSH_TTY$(pgrep xinit)" ]] && exec cdm
 # fi
-
