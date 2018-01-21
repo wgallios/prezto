@@ -85,3 +85,7 @@ TMPPREFIX="${TMPDIR%/}/zsh"
     # Avoid executing cdm(1) when X11 has already been started.
     # [[ -z "$DISPLAY$SSH_TTY$(pgrep xinit)" ]] && exec cdm
 # fi
+
+if [[ -d "$HOME/.cargo/bin" ]]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
