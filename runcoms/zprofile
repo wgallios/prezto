@@ -89,3 +89,20 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 if [[ -d "$HOME/.cargo/bin" ]]; then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
+
+if [[ -d "$HOME/android-sdk" ]] ; then
+    export PATH="$HOME/android-sdk/tools/bin:$HOME/android-sdk/tools/proguard/bin:$HOME/android-sdk/tools:$PATH"
+fi
+
+
+if [[ -d "$HOME/android-studio" ]] ; then
+    export PATH="$HOME/android-studio/bin:$PATH"
+fi
+
+if [[ -d "$HOME/android-ndk" ]] ; then
+    export ANDROID_NDK_HOME="$HOME/android-ndk"
+
+    if [[ -d "$HOME/android-ndk/android-toolchain" ]] ; then
+        export PATH="$HOME/android-ndk/android-toolchain/bin:$PATH"
+    fi
+fi
