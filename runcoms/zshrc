@@ -200,3 +200,29 @@ alias urxvtconf='urxvt --help 2>&1| sed -n ''/: /s/^ */! URxvt*/gp'''
 alias tail='/./usr/bin/tail -n100'
 alias tailf='tail -n100 -f'
 alias hollywood='hollywood --nosound'
+
+
+uploadSSHKeyfn () {
+    local port=22
+    local USERNAME=$(whoami)
+    if [[ ! -z $2 ]]; then
+        port=$2
+    fi
+
+    if [[ -z $1 || $port -le 0 || $port -gt 65535 ]]; then
+        echo "usage: uploadSSHKey [username@]host [port]\nExample: uploadSSHKey $USERNAME@localhost 2222";
+        return 1
+    fi
+
+
+    echo "Uploading ssh key to $1:$port...."
+    if cat ~/.ssh/id_rsa.pub | ssh $1 -p $port "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys"; then
+        echo "Success";
+        return 0;
+    else
+        echo "FAILED";
+        return 1;
+    fi
+}
+
+alias uploadSSHKey="uploadSSHKeyfn"
