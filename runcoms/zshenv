@@ -37,6 +37,9 @@ elif [ -d "/usr/local/share/rbenv/completions" ]; then
 fi
 
 
+if [ -d "/usr/lib/android-ndk" ]; then
+    export PATH=$PATH:/usr/lib/android-ndk
+fi
 
 if [ -d "/usr/lib/oracle/12.1/client64" ]; then
     export ORACLE_HOME=/usr/lib/oracle/12.1/client64

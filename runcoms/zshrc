@@ -136,6 +136,9 @@ if [[ -r /sbin/iwconfig ]]; then
     alias iwconfig='/./sbin/iwconfig'
 fi
 
+if [[ -d ~/src/blueborne ]]; then
+    export PYTHONPATH=$PYTHONPATH:~/src/blueborne
+fi
 
 alias udevreload='udevadm control --reload-rules && udevadm trigger'
 
