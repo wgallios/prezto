@@ -204,6 +204,8 @@ alias tail='/./usr/bin/tail -n100'
 alias tailf='tail -n100 -f'
 alias hollywood='hollywood --nosound'
 
+alias google-chrome='google-chrome-stable'
+
 
 uploadSSHKeyfn () {
     local port=22
