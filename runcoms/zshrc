@@ -119,6 +119,10 @@ fi
 
 source ~/.zshenv
 
+if [[ -r /usr/bin/aurman ]]; then
+    alias aur="$(which aurman)"
+fi
+
 if [[ -r ~/.local/bin/man ]]; then
     alias man='~/./.local/bin/man'
 fi
@@ -222,7 +226,7 @@ uploadSSHKeyfn () {
 
     echo "Uploading ssh key to $1:$port...."
     if cat ~/.ssh/id_rsa.pub | ssh $1 -p $port "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys"; then
-        echo "Success";
+        qecho "Success";
         return 0;
     else
         echo "FAILED";
@@ -231,3 +235,41 @@ uploadSSHKeyfn () {
 }
 
 alias uploadSSHKey="uploadSSHKeyfn"
+
+
+generateSSHkeyfn () {
+    local USERNAME=$(whoami)
+    local HOSTNAME=$(hostname)
+
+    local EMAIL="$USERNAME@$HOSTNAME"
+    local DEFKEYPATH="~/.ssh/id_rsa"
+    
+    if [[ -z $1 ]]; then
+        echo "usage: generateSSHkey [$EMAIL [$DEFKEYPATH]]";
+        read "USEDEF?Use $EMAIL as email address?"
+
+        if ! [[ "$USEDEF" =~ ^[Yy]$ ]] then
+            echo "FAILED";
+            return 1;
+        fi
+    else
+        EMAIL=$1
+    fi
+
+    if ! [[ -z $2 ]]; then
+        DEFKEYPATH=$2
+    fi
+
+    if ssh-keygen -t rsa -b 4096 -c $EMAIL -f $DEFKEYPATH; then
+        eval "$(ssh-agent -s)"
+        ssh-add $DEFKEYPATH
+        echo "SUCCESS";
+        return 0;
+    else
+        echo "FAILED";
+        return 1;
+    fi
+
+}
+
+alias generateSSHkey="generateSSHkeyfn"

@@ -8,10 +8,12 @@
 # Execute code only if STDERR is bound to a TTY.
 [[ -o INTERACTIVE && -t 2 ]] && {
 
-# Print the message.
-cat <<-EOF
+SAYINGS=(
+    "Kill yourself"
+    "FUck yo couch nigga!\n --Dave Chappelle"
+)
 
-Pewp it out
-EOF
+# Print a randomly-chosen message:
+echo $SAYINGS[$(($RANDOM % ${#SAYINGS} + 1))]
 
 } >&2
