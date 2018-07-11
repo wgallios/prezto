@@ -226,7 +226,7 @@ uploadSSHKeyfn () {
 
     echo "Uploading ssh key to $1:$port...."
     if cat ~/.ssh/id_rsa.pub | ssh $1 -p $port "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys"; then
-        qecho "Success";
+        echo "Success";
         return 0;
     else
         echo "FAILED";
@@ -273,3 +273,7 @@ generateSSHkeyfn () {
 }
 
 alias generateSSHkey="generateSSHkeyfn"
+
+if [ -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
