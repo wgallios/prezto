@@ -120,7 +120,8 @@ fi
 source ~/.zshenv
 
 if [[ -r /usr/bin/aurman ]]; then
-    alias aur="$(which aurman)"
+    alias aurman="$(which aurman) --noedit --noconfirm"
+    alias aur="$(which aurman) --noedit --noconfirm"
 fi
 
 if [[ -r ~/.local/bin/man ]]; then
