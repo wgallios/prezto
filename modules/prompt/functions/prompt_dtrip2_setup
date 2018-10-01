@@ -225,7 +225,7 @@ prompt_endcap() {
 prompt_right () {
   # print -n "%b%B{238}"
   # prompt_end
-  prompt_right_segment 228 16 " $DATE %D{%m/%d/%y %H:%M:%S} "
+  prompt_right_segment 228 16 " $DATE %D{%m/%d/%y %H:%M:%S} %{$reset_color%}"
   prompt_git
   prompt_virtualenv
   # prompt_end_right
