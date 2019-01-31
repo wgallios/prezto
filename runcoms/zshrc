@@ -276,6 +276,19 @@ generateSSHkeyfn () {
 
 alias generateSSHkey="generateSSHkeyfn"
 
+alias rsyncssh="rsyncsshfn"
+
+rsyncsshfn () {
+
+    if [[ -z $1 || -z $2 ]]; then
+        echo "usage: rsyncssh [SRC] [DESTINATION]"
+        return 1;
+    fi
+
+    rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress $1 $2;
+    return 0;
+}
+
 if [ -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
