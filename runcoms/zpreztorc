@@ -111,6 +111,7 @@ zstyle ':prezto:module:history-substring-search' globbing-flags ''
 
 # Set the Pacman frontend.
 # zstyle ':prezto:module:pacman' frontend 'yaourt'
+zstyle ':prezto:module:pacman' frontend 'yay'
 
 #
 # Prompt
@@ -182,8 +183,8 @@ zstyle ':prezto:module:syntax-highlighting' styles \
   'function' 'bg=blue'
 
 # Set syntax pattern styles.
-# zstyle ':prezto:module:syntax-highlighting' pattern \
-#   'rm*-rf*' 'fg=white,bold,bg=red'
+zstyle ':prezto:module:syntax-highlighting' pattern \
+  'rm*-rf*' 'fg=white,bold,bg=red'
 
 #
 # Terminal
@@ -215,7 +216,7 @@ zstyle ':prezto:module:terminal:multiplexer-title' format '%s'
 # zstyle ':prezto:module:tmux:iterm' integrate 'yes'
 
 # Set the default session name:
-# zstyle ':prezto:module:tmux:session' name 'YOUR DEFAULT SESSION NAME'
+zstyle ':prezto:module:tmux:session' name 'Dtrip Tmux'
 
 #
 # Utility
