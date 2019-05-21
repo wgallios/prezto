@@ -60,6 +60,7 @@ alias transmission='transmission-cli'
 alias up='cd ..'
 alias back='cd -'
 alias l='ls -alh'
+alias lsd='ls -alhd */'
 alias g='git'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit;"
 alias gr='grunt'
