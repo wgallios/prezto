@@ -75,7 +75,7 @@ alias logc='multitail -Cs -f'
 alias cdv='cd /var/www'
 
 alias 256colors="~/zshrc/256-xterm-colors"
-alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT0| grep -E "state|to\ full|percentage"'
+# alias bat='upower -i /org/freedesktop/UPower/devices/battery_BAT0| grep -E "state|to\ full|percentage"'
 
 # tmux aliases
 alias t='tmux -2'
@@ -145,6 +145,11 @@ fi
 
 if [[ -d ~/src/blueborne ]]; then
     export PYTHONPATH=$PYTHONPATH:~/src/blueborne
+fi
+
+if [[ -r /usr/bin/bat ]]; then
+    alias cat='bat'
+    alias less='bat'
 fi
 
 alias udevreload='udevadm control --reload-rules && udevadm trigger'
