@@ -55,11 +55,15 @@ fi
 export PATH=$PATH:/usr/lib/perl5/5.30/core_perl/CORE
 
 # Customize to your needs...
-# export TERM='screen-256color'
+export TERM='screen-256color'
 # [[ -z $TMUX ]] && export TERM="xterm-256color"
 
-export TERM=rxvt-unicode-256color
+# export TERM=rxvt-unicode-256color
 
+
+if [ -e "/usr/bin/lsd" ]; then
+    alias ls="/usr/bin/lsd"
+fi
 
 
 if [ -d "$HOME/.pyenv" ]; then
