@@ -59,8 +59,11 @@ alias transmission='transmission-cli'
 
 alias up='cd ..'
 alias back='cd -'
-alias l='ls -alh'
-alias lsd='/usr/bin/lsd -alhd */'
+alias l='exa -alhg'
+alias lsd='exa -alhgd'
+alias ls='exa'
+# alias l='ls -alh'
+# alias lsd='/usr/bin/lsd -alhd */'
 alias g='git'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit;"
 alias gr='grunt'
@@ -150,6 +153,10 @@ fi
 if [[ -r /usr/bin/bat ]]; then
     alias cat='bat'
     alias less='bat'
+fi
+
+if [[ -r /usr/bin/pydf ]]; then
+    alias df='pydf'
 fi
 
 alias udevreload='udevadm control --reload-rules && udevadm trigger'
