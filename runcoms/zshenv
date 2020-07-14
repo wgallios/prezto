@@ -74,5 +74,9 @@ if [ -d "$HOME/.pyenv" ]; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
+if [ -e "/usr/bin/wine" ]; then
+    export WINEARCH=win32
+    export WINEPREFIX=~/.wine32
+fi
 
 export XDG_CONFIG_HOME=~/.config
