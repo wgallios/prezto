@@ -117,7 +117,7 @@ if command -v ack-grep > /dev/null 2>&1; then
 fi
 
 # if [[ $(which systemctl) ]]; then
-if command -v systemctl > /dyyev/null 2>&1; then
+if command -v systemctl > /dev/null 2>&1; then
     alias ctl='systemctl'
 fi
 
