@@ -18,6 +18,8 @@ export NO_AT_BRIDGE=1
 
 export AWESOME_THEMES_PATH=/usr/local/share/awesome/themes
 
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME}/.awesome:${XDG_CONFIG_HOME}"
+
 export _JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
 
 setopt AUTO_CD
@@ -59,9 +61,14 @@ alias transmission='transmission-cli'
 
 alias up='cd ..'
 alias back='cd -'
-alias l='exa -alhg'
-alias lsd='exa -alhgd'
-alias ls='exa'
+
+if command -v exa > /dev/null 2>&1; then
+    alias l='exa -alhg'
+    alias lsd='exa -alhgd'
+    alias ls='exa'
+fi
+
+
 # alias l='ls -alh'
 # alias lsd='/usr/bin/lsd -alhd */'
 alias g='git'
@@ -110,7 +117,7 @@ if command -v ack-grep > /dev/null 2>&1; then
 fi
 
 # if [[ $(which systemctl) ]]; then
-if command -v systemctl > /dev/null 2>&1; then
+if command -v systemctl > /dyyev/null 2>&1; then
     alias ctl='systemctl'
 fi
 
