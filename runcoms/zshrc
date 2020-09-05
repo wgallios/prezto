@@ -252,15 +252,26 @@ uploadSSHKeyfn () {
 alias uploadSSHKey="uploadSSHKeyfn"
 
 
-generateSSHkeyfn () {
+_generateSSHkeyfn () {
     local USERNAME=$(whoami)
-    local HOSTNAME=$(hostname)
-
+    local HOSTNAME=$(cat /etc/hostname)
     local EMAIL="$USERNAME@$HOSTNAME"
-    local DEFKEYPATH="~/.ssh/id_rsa"
-    
+    # local HOSTNAME=$(hostname)
+
     if [[ -z $1 ]]; then
-        echo "usage: generateSSHkey [$EMAIL [$DEFKEYPATH]]";
+        read "email?E-mail address: "
+
+        if ! [[ -z "$email" ]]; then
+            EMAIL="$email"
+        fi
+    fi
+
+
+
+    local DEFKEYPATH="$HOME/.ssh/id_rsa"
+    
+    if [[ -z $EMAIL ]]; then
+        printf "usage: generateSSHkey [%s [%s]]" "$EMAIL" "$DEFKEYPATH";
         read "USEDEF?Use $EMAIL as email address?"
 
         if ! [[ "$USEDEF" =~ ^[Yy]$ ]] then
@@ -272,22 +283,33 @@ generateSSHkeyfn () {
     fi
 
     if ! [[ -z $2 ]]; then
-        DEFKEYPATH=$2
+        DEFKEYPATH="$2"
     fi
 
-    if ssh-keygen -t rsa -b 4096 -c $EMAIL -f $DEFKEYPATH; then
+
+    if ! [[ -d  "$HOME/.ssh" ]]; then
+        printf "creating $HOME/.ssh folder...";
+        if mkdir -p "$HOME/.ssh"; then
+            printf "SUCCESS\n";
+        else
+            printf "FAIL\n";
+        fi
+    fi
+
+    printf "generating key..."
+    if ssh-keygen -t rsa -b 4096 -C "$EMAIL" -f "$DEFKEYPATH" -q -N ""; then
         eval "$(ssh-agent -s)"
         ssh-add $DEFKEYPATH
-        echo "SUCCESS";
+        printf "SUCCESS\n";
         return 0;
     else
-        echo "FAILED";
+        printf "FAILED\n";
         return 1;
     fi
 
 }
 
-alias generateSSHkey="generateSSHkeyfn"
+alias generateSSHkey="_generateSSHkeyfn"
 
 alias rsyncssh="rsyncsshfn"
 
