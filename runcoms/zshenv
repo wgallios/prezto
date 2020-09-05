@@ -37,6 +37,8 @@ elif [ -d "/usr/local/share/rbenv/completions" ]; then
 fi
 
 
+# source /usr/local/share/sqlmap/extra/shutils/completions.zsh
+
 if [ -d "/usr/lib/android-ndk" ]; then
     export PATH=$PATH:/usr/lib/android-ndk
 fi
@@ -67,6 +69,11 @@ if [ -e "/usr/bin/lsd" ]; then
 fi
 
 
+if [ -d "$HOME/.config/composer/vendor/bin" ]; then
+    export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+fi
+
+
 if [ -d "$HOME/.pyenv" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$HOME/.pyenv/bin:$PATH"
@@ -80,3 +87,7 @@ if [ -e "/usr/bin/wine" ]; then
 fi
 
 export XDG_CONFIG_HOME=~/.config
+
+
+
+typeset -U path
