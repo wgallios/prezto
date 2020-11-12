@@ -66,6 +66,9 @@ if command -v exa > /dev/null 2>&1; then
     alias l='exa -alhg'
     alias lsd='exa -alhgd'
     alias ls='exa'
+else
+    alias l='ls -alh'
+    alias lsd='/usr/bin/lsd -alhd */'
 fi
 
 
@@ -335,4 +338,4 @@ if [ -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; th
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.local/bin:$PATH"
