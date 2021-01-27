@@ -282,7 +282,7 @@ generateSSHkeyfn () {
         DEFKEYPATH=$2
     fi
 
-    if ssh-keygen -t rsa -b 4096 -c $EMAIL -f $DEFKEYPATH; then
+    if ssh-keygen -t rsa -b 4096 -C $EMAIL; then
         eval "$(ssh-agent -s)"
         ssh-add $DEFKEYPATH
         echo "SUCCESS";
@@ -313,4 +313,29 @@ if [ -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; th
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
+
+srvCmdfn () {
+    systemctl $2 $1;
+}
+
+alias service="srvCmdfn"
+
+
+source /etc/profile
+
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+pip()
+{
+
+  if [[ $1 == "search" ]]; then
+
+    command pip_search "${@:2}" | more;
+
+  else
+
+    command pip "$@";
+
+  fi
+
+}
