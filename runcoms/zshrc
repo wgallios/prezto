@@ -296,9 +296,6 @@ _generateSSHkeyfn () {
         DEFKEYPATH="$2"
     fi
 
-<<<<<<< HEAD
-    if ssh-keygen -t rsa -b 4096 -C $EMAIL; then
-=======
 
     if ! [[ -d  "$HOME/.ssh" ]]; then
         printf "creating $HOME/.ssh folder...";
@@ -311,7 +308,6 @@ _generateSSHkeyfn () {
 
     printf "generating key..."
     if ssh-keygen -t rsa -b 4096 -C "$EMAIL" -f "$DEFKEYPATH" -q -N ""; then
->>>>>>> 840be9829c851e4b6737237c914dd11496d0df0e
         eval "$(ssh-agent -s)"
         ssh-add $DEFKEYPATH
         printf "SUCCESS\n";
@@ -342,8 +338,6 @@ if [ -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; th
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-<<<<<<< HEAD
-
 srvCmdfn () {
     systemctl $2 $1;
 }
@@ -353,7 +347,7 @@ alias service="srvCmdfn"
 
 source /etc/profile
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.local/bin:$PATH"
 
 pip()
 {
@@ -369,6 +363,3 @@ pip()
   fi
 
 }
-=======
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.local/bin:$PATH"
->>>>>>> 840be9829c851e4b6737237c914dd11496d0df0e
