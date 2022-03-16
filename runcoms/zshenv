@@ -86,6 +86,20 @@ if [ -e "/usr/bin/wine" ]; then
     export WINEPREFIX=~/.wine32
 fi
 
+if [ -e "/usr/share/vulkan/icd.d/nvidia_icd.json" ]; then
+    export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
+fi
+
+# if [ -e "/usr/local/share/arnold" ]; then
+    # export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/Arnold-6.2.0.1-linux/bin
+# On Linux
+ARNOLD_ROOT=/opt/Arnold-6.2.0.1-linux
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ARNOLD_ROOT/bin
+
+export ARNOLD_ROOT
+export LD_LIBRARY_PATH
+# fi
+
 export XDG_CONFIG_HOME=~/.config
 
 
