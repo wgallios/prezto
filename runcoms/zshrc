@@ -62,15 +62,24 @@ alias transmission='transmission-cli'
 alias up='cd ..'
 alias back='cd -'
 
-if command -v exa > /dev/null 2>&1; then
-    alias l='exa -alhg'
-    alias lsd='exa -alhgd'
-    alias ls='exa'
+if command -v eza > /dev/null 2>&1; then
+    alias l='eza -alhg'
+    alias lsd='eza -alhgd'
+    alias ls='eza'
 else
     alias l='ls -alh'
     alias lsd='/usr/bin/lsd -alhd */'
 fi
 
+# if command -v exa > /dev/null 2>&1; then
+#     alias l='exa -alhg'
+#     alias lsd='exa -alhgd'
+#     alias ls='exa'
+# else
+#     alias l='ls -alh'
+#     alias lsd='/usr/bin/lsd -alhd */'
+# fi
+#
 
 # alias l='ls -alh'
 # alias lsd='/usr/bin/lsd -alhd */'
@@ -249,13 +258,26 @@ uploadSSHKeyfn () {
     fi
 
 
-    echo "Uploading ssh key to $1:$port...."
-    if cat ~/.ssh/id_rsa.pub | ssh $1 -p $port "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys"; then
-        echo "Success";
-        return 0;
-    else
-        echo "FAILED";
-        return 1;
+    if [[ -f ~/.ssh/id_rsa.pub ]]; then
+        echo "Uploading id_rsa.pub ssh key to $1:$port...."
+        if cat ~/.ssh/id_rsa.pub | ssh $1 -p $port "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys"; then
+            echo "Success";
+            return 0;
+        else
+            echo "FAILED";
+            return 1;
+        fi
+    fi
+
+    if [[ -f ~/.ssh/id_ed25519.pub ]]; then
+        echo "Uploading id_ed25519.pub ssh key to $1:$port...."
+        if cat ~/.ssh/id_ed25519.pub | ssh $1 -p $port "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >> ~/.ssh/authorized_keys"; then
+            echo "Success";
+            return 0;
+        else
+            echo "FAILED";
+            return 1;
+        fi
     fi
 }
 
