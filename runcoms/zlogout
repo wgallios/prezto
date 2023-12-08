@@ -9,8 +9,7 @@
 [[ -o INTERACTIVE && -t 2 ]] && {
 
 SAYINGS=(
-    "Kill yourself"
-    "FUck yo couch nigga!\n --Dave Chappelle"
+    "Bye"
 )
 
 # Print a randomly-chosen message:

@@ -367,6 +367,10 @@ srvCmdfn () {
 alias service="srvCmdfn"
 
 
+if [ -r /usr/share/doc/git-extras/git-extras-completion.zsh ]; then
+    source /usr/share/doc/git-extras/git-extras-completion.zsh
+fi
+
 source /etc/profile
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.local/bin:$PATH"
