@@ -21,7 +21,7 @@
 	url = https://github.com/sindresorhus/pure.git
 [submodule "modules/fasd/external"]
 	path = modules/fasd/external
-	url = https://github.com/clvv/fasd.git
+	url = https://github.com/whjvenyl/fasd.git
 [submodule "modules/zsh-titles/external"]
 	path = modules/zsh-titles/external
 	url = https://github.com/jreese/zsh-titles.git
