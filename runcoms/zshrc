@@ -400,3 +400,10 @@ export NVM_DIR="$HOME/.config/nvm"
 
 export ANDROID_HOME="$HOME/Android/Sdk"
 export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools"
+
+# Added by `rbenv init` on Thu May 21 09:30:25 AM PDT 2026
+eval "$(~/.rbenv/bin/rbenv init - --no-rehash zsh)"
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/dtrip/.local/bin:$PATH"
